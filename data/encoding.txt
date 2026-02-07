@@ -1,0 +1,301 @@
+Data Encoding Scheme for Key Variables
+
+Age
+
+0 → Less than 16 years
+
+1 → 16–20 years
+
+2 → 21–25 years
+
+3 → More than 25 years
+
+Gender
+
+0 → Male
+
+1 → Female
+
+2 → Other
+
+Living Arrangement (Where_live)
+
+0 → Living with family
+
+1 → Hostel
+
+2 → Mess
+
+Academic Level
+
+0 → SSC
+
+1 → HSC
+
+2 → Diploma
+
+3 → Undergraduate (UG)
+
+4 → Postgraduate (PG)
+
+Average Sleep Duration (AVG_Sleep)
+
+0 → Less than 5 hours
+
+1 → 5–6 hours
+
+2 → 7–8 hours
+
+3 → More than 8 hours
+
+Regular Bedtime
+
+0 → Before 10:00 PM
+
+1 → 10:00–11:00 PM
+
+2 → 11:00 PM–12:00 AM
+
+3 → 12:00–1:00 AM
+
+4 → After 1:00 AM
+
+Bedtime During Exams (Exam_Bedtime)
+
+0 → Before 10:00 PM
+
+1 → 10:00–11:00 PM
+
+2 → 11:00 PM–12:00 AM
+
+3 → 12:00–1:00 AM
+
+4 → After 1:00 AM
+
+Bedtime During Holidays (Holiday_Bedtime)
+
+0 → Before 10:00 PM
+
+1 → 10:00–11:00 PM
+
+2 → 11:00 PM–12:00 AM
+
+3 → 12:00–1:00 AM
+
+4 → After 1:00 AM
+
+Regular Wake-up Time (Regular_WakeUp)
+
+0 → Before 6:00 AM
+
+1 → 6:00–8:00 AM
+
+2 → After 8:00 AM
+
+Holiday Wake-up Time (Holiday_WakeUp)
+
+0 → Before 6:00 AM
+
+1 → 6:00–8:00 AM
+
+2 → After 8:00 AM
+
+Regular Sleep Schedule (Regular_Schedule)
+
+0 → No
+
+1 → Yes
+
+Daytime Nap Frequency (Daytime_Nap)
+
+0 → Never
+
+1 → 1–2 days per week
+
+2 → 3–4 days per week
+
+3 → 5 or more days per week
+
+Difficulty Falling Asleep (Struggle_Sleep)
+
+0 → Never
+
+1 → Rarely
+
+2 → Sometimes
+
+3 → Often
+
+4 → Always
+
+Sleep Disorder Type (Sleep_Disorder)
+
+0 → Obstructive Sleep Apnea (OSA)
+
+1 → Insomnia
+
+2 → Restless Legs Syndrome (RLS)
+
+3 → Periodic Limb Movement Syndrome (PLMS)
+
+4 → None
+
+Use of Electronics Before Bed (Electronics_Bed)
+
+0 → No
+
+1 → Yes
+
+Caffeine Intake at Night (Caffeine_Night)
+
+0 → No
+
+1 → Yes
+
+Dinner Time
+
+0 → Before 7:00 PM
+
+1 → 7:00–9:00 PM
+
+2 → After 9:00 PM
+
+Smoking Habit (Smoke)
+
+0 → No
+
+1 → Yes
+
+Use of Sleep Medication (Sleep_Drugs)
+
+0 → No
+
+1 → Yes
+
+Daily Study Time (Study_Time)
+
+0 → Less than 1 hour
+
+1 → 1–2 hours
+
+2 → 2–3 hours
+
+3 → 3–4 hours
+
+4 → More than 4 hours
+
+Reason for Sleep Issues (Sleep_Issue_Reason)
+
+0 → Job
+
+1 → Academic workload
+
+2 → Social media
+
+3 → Stress
+
+4 → Noise
+
+5 → Entertainment
+
+6 → Other
+
+Self-reported Sleep Quality (Sleep_Quality)
+
+0 → Very poor
+
+1 → Poor
+
+2 → Average
+
+3 → Good
+
+4 → Very good
+
+Class Attendance Pattern (Attendance)
+
+0 → Always on time
+
+1 → Usually on time
+
+2 → Occasionally late
+
+3 → Frequently late
+
+Sleepiness During Class (Class_Sleepiness)
+
+0 → Never
+
+1 → Rarely
+
+2 → Often
+
+3 → Always
+
+Skipping Classes for Sleep (Skip_for_Sleep)
+
+0 → No
+
+1 → Yes
+
+Ability to Focus in Class (Focus)
+
+0 → Always
+
+1 → Often
+
+2 → Sometimes
+
+3 → Rarely
+
+4 → Never
+
+Impact of Sleep on Academic Performance (Sleep_Impact)
+
+0 → Very positive
+
+1 → Somewhat positive
+
+2 → No impact
+
+3 → Somewhat negative
+
+4 → Very negative
+
+Current CGPA (Initial Target Variable)
+
+0 → 3.75–4.00
+
+1 → 3.50–3.74
+
+2 → 3.25–3.49
+
+3 → 3.00–3.24
+
+4 → Less than 3.00
+
+CGPA Classification (CGPA3_Class – Target Variable)
+
+0 → 3.50–4.00
+
+1 → 3.00–3.49
+
+2 → Less than 3.00
+
+Awareness of Sleep Recommendations (Aware_Recommend)
+
+0 → No
+
+1 → Yes
+
+Use of Sleep Tracking Devices (Track_Devices)
+
+0 → No
+
+1 → Yes
+
+Sacrificing Sleep for Work or Study (Sacrifice_Sleep)
+
+0 → No
+
+1 → Yes

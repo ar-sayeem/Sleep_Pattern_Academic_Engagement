@@ -1,0 +1,7 @@
+# Ignore images and results folders
+images/*
+results/*
+
+# Keep .gitkeep files to maintain folder structure
+!images/.gitkeep
+!results/.gitkeep
