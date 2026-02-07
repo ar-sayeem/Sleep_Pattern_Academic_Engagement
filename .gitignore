@@ -5,3 +5,8 @@ results/*
 # Keep .gitkeep files to maintain folder structure
 !images/.gitkeep
 !results/.gitkeep
+
+# Ignore CatBoost generated files
+catboost_info/
+*.bin
+catboost_training.log

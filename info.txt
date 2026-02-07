@@ -1,0 +1,505 @@
+================================================================================
+                    CATBOOST INFO FOLDER - CLEANUP GUIDE
+================================================================================
+
+Created: February 7, 2026
+Purpose: Document why CatBoost creates files and how to remove them
+Author: Sleep Pattern Academic Engagement Research
+
+================================================================================
+                              TABLE OF CONTENTS
+================================================================================
+
+1. What is catboost_info folder?
+2. Why does CatBoost create it?
+3. What files are generated?
+4. How to prevent it (Recommended)
+5. How to remove it (If already created)
+6. Updated code examples
+7. Troubleshooting
+
+================================================================================
+                    1. WHAT IS CATBOOST_INFO FOLDER?
+================================================================================
+
+The "catboost_info" folder is an automatically generated directory that CatBoost
+creates during model training. It contains logs, metadata, and training records
+that the library uses for internal tracking and debugging purposes.
+
+Location: Your project root directory
+    g:\Research\Final_Defense\Codes\SleepPattern\catboost_info\
+
+What it contains:
+    - time_left.json          → Remaining training time estimates
+    - events.json             → Training event logs
+    - learn_error.tsv         → Training loss over iterations
+    - test_error.tsv          → Validation/test loss over iterations
+    - metric_info.json        → Metric calculation metadata
+
+Size: Usually 50KB - 500KB depending on iterations
+
+================================================================================
+                  2. WHY DOES CATBOOST CREATE IT?
+================================================================================
+
+CatBoost creates this folder automatically to:
+
+✓ Track training progress in real-time
+✓ Log performance metrics at each iteration
+✓ Record timing information for analysis
+✓ Enable early stopping monitoring
+✓ Facilitate debugging and analysis
+✓ Store computation checkpoints
+
+The library does this BY DEFAULT, even if you don't ask for it.
+
+Example code that triggers folder creation:
+──────────────────────────────────────────────────────────────────────────────
+from catboost import CatBoostClassifier
+
+model = CatBoostClassifier(iterations=100, verbose=False)
+model.fit(X_train, y_train)  # ← This creates catboost_info/ folder!
+──────────────────────────────────────────────────────────────────────────────
+
+Note: verbose=False only hides console output, NOT folder creation!
+
+================================================================================
+                     3. WHAT FILES ARE GENERATED?
+================================================================================
+
+Example file structure:
+
+catboost_info/
+├── time_left.json           (Training time estimate)
+├── events.json              (Detailed event logs)
+├── learn_error.tsv          (Training performance metrics)
+├── test_error.tsv           (Test performance metrics)
+├── metric_info.json         (Metric descriptions)
+└── [timestamp]_catboost_training.log
+
+File purposes:
+──────────────────────────────────────────────────────────────────────────────
+• time_left.json
+  - Contains time estimates for training completion
+  - Updated after each iteration
+  - Size: ~1-5 KB
+
+• events.json
+  - Complete training event log
+  - Timestamps and iteration details
+  - Size: ~10-50 KB
+
+• learn_error.tsv
+  - Training loss/error at each iteration
+  - Format: Tab-separated values
+  - Size: ~5-20 KB
+
+• test_error.tsv
+  - Validation/test error at each iteration
+  - Used for early stopping decisions
+  - Size: ~5-20 KB
+
+• metric_info.json
+  - Metadata about computed metrics
+  - Metric names and descriptions
+  - Size: ~1-2 KB
+──────────────────────────────────────────────────────────────────────────────
+
+Total typical size: 50KB - 200KB
+
+================================================================================
+           4. HOW TO PREVENT IT (RECOMMENDED APPROACH)
+================================================================================
+
+Method A: Disable all file writing (BEST for production/research)
+──────────────────────────────────────────────────────────────────────────────
+
+from catboost import CatBoostClassifier
+
+catboost_model = CatBoostClassifier(
+    iterations=100,
+    depth=5,
+    learning_rate=0.1,
+    random_state=42,
+    verbose=False,
+    train_dir=None,              # ← NEW: Disable training directory
+    allow_writing_files=False    # ← NEW: Prevent file creation
+)
+
+catboost_model.fit(X_train, y_train)
+──────────────────────────────────────────────────────────────────────────────
+
+✓ No catboost_info/ folder created
+✓ No .bin files generated
+✓ No log files written
+✓ Clean project structure
+✓ Slightly faster training (no I/O overhead)
+
+
+Method B: Redirect to temp folder (if you need the logs)
+──────────────────────────────────────────────────────────────────────────────
+
+import tempfile
+from catboost import CatBoostClassifier
+
+# Create temp directory
+temp_dir = tempfile.mkdtemp()
+
+catboost_model = CatBoostClassifier(
+    iterations=100,
+    depth=5,
+    learning_rate=0.1,
+    random_state=42,
+    verbose=False,
+    train_dir=temp_dir  # ← Logs go to system temp, not your project
+)
+
+catboost_model.fit(X_train, y_train)
+──────────────────────────────────────────────────────────────────────────────
+
+✓ Logs created but isolated
+✓ Automatically cleaned up by OS
+✓ Project stays clean
+✓ Still have access to metrics if needed
+
+
+Method C: Custom directory (if you want to keep logs for analysis)
+──────────────────────────────────────────────────────────────────────────────
+
+import os
+from catboost import CatBoostClassifier
+
+# Create dedicated logs folder
+os.makedirs('catboost_logs', exist_ok=True)
+
+catboost_model = CatBoostClassifier(
+    iterations=100,
+    depth=5,
+    learning_rate=0.1,
+    random_state=42,
+    verbose=False,
+    train_dir='catboost_logs'  # ← Organized in separate folder
+)
+
+catboost_model.fit(X_train, y_train)
+
+# Then add to .gitignore:
+# catboost_logs/
+──────────────────────────────────────────────────────────────────────────────
+
+✓ Logs kept separate from project root
+✓ Easy to manage
+✓ Can be ignored in git
+✓ Useful for debugging
+
+================================================================================
+             5. HOW TO REMOVE IT (IF ALREADY CREATED)
+================================================================================
+
+IMPORTANT: Back up your work before running deletion commands!
+
+Option A: Windows PowerShell (RECOMMENDED)
+──────────────────────────────────────────────────────────────────────────────
+
+# Navigate to project directory
+cd g:\Research\Final_Defense\Codes\SleepPattern
+
+# Remove catboost_info folder
+Remove-Item -Path "catboost_info" -Recurse -Force
+
+# Remove all .bin files
+Remove-Item -Path "*.bin" -Force
+
+# Remove log files
+Remove-Item -Path "catboost_training.log" -Force
+
+# Verify deletion
+Get-ChildItem | Select-Object Name
+──────────────────────────────────────────────────────────────────────────────
+
+Expected output: catboost_info folder no longer listed
+
+
+Option B: Windows Command Prompt (CMD)
+──────────────────────────────────────────────────────────────────────────────
+
+# Navigate to project
+cd g:\Research\Final_Defense\Codes\SleepPattern
+
+# Remove catboost_info folder
+rmdir /s /q catboost_info
+
+# Remove .bin files
+del *.bin
+
+# Remove log files
+del catboost_training.log
+
+# List contents to verify
+dir
+──────────────────────────────────────────────────────────────────────────────
+
+Flags explained:
+  /s = Remove all subdirectories and files
+  /q = Quiet mode (no confirmation prompt)
+
+
+Option C: Git Bash / Mac / Linux
+──────────────────────────────────────────────────────────────────────────────
+
+# Navigate to project
+cd g/Research/Final_Defense/Codes/SleepPattern
+
+# Remove catboost_info folder
+rm -rf catboost_info
+
+# Remove all .bin files
+rm -f *.bin
+
+# Remove log files
+rm -f catboost_training.log
+
+# List contents to verify
+ls -la
+──────────────────────────────────────────────────────────────────────────────
+
+Flags explained:
+  -r = Recursive (include subdirectories)
+  -f = Force (no confirmation)
+
+
+Option D: Using VS Code Explorer (GUI Method)
+──────────────────────────────────────────────────────────────────────────────
+
+1. Open VS Code Explorer (left sidebar)
+2. Right-click on "catboost_info" folder
+3. Select "Delete" (or "Move to Trash")
+4. Confirm deletion
+5. Right-click on *.bin files
+6. Select "Delete"
+7. Refresh folder (F5)
+──────────────────────────────────────────────────────────────────────────────
+
+✓ Visual confirmation of deletion
+✓ Can undo if needed (Ctrl+Z)
+✓ Beginner-friendly
+
+
+Option E: Using File Explorer (Windows)
+──────────────────────────────────────────────────────────────────────────────
+
+1. Open File Explorer
+2. Navigate to: g:\Research\Final_Defense\Codes\SleepPattern
+3. Find "catboost_info" folder
+4. Right-click → Delete
+5. Confirm deletion
+6. Select *.bin files → Delete
+7. Empty Recycle Bin (optional)
+──────────────────────────────────────────────────────────────────────────────
+
+✓ Most intuitive for users
+✓ Recovery available from Recycle Bin
+
+================================================================================
+                      6. UPDATED CODE EXAMPLES
+================================================================================
+
+BEFORE (Creates catboost_info folder):
+──────────────────────────────────────────────────────────────────────────────
+from catboost import CatBoostClassifier
+
+print("Training CatBoost Classifier...")
+
+catboost_model = CatBoostClassifier(
+    iterations=100,
+    depth=5,
+    learning_rate=0.1,
+    random_state=42,
+    verbose=False
+)
+
+catboost_model.fit(X_train, y_train)
+result, y_pred_cat = evaluate_model(catboost_model, X_test, y_test, 'CatBoost')
+
+print(f"\nResults:")
+for key, value in result.items():
+    print(f"  {key}: {value}")
+
+# ❌ Creates: catboost_info/ folder with multiple files
+──────────────────────────────────────────────────────────────────────────────
+
+
+AFTER (Prevents folder creation):
+──────────────────────────────────────────────────────────────────────────────
+from catboost import CatBoostClassifier
+
+print("Training CatBoost Classifier...")
+
+catboost_model = CatBoostClassifier(
+    iterations=100,
+    depth=5,
+    learning_rate=0.1,
+    random_state=42,
+    verbose=False,
+    train_dir=None,              # ← NEW: Disable training directory
+    allow_writing_files=False    # ← NEW: Prevent all file creation
+)
+
+catboost_model.fit(X_train, y_train)
+result, y_pred_cat = evaluate_model(catboost_model, X_test, y_test, 'CatBoost')
+
+print(f"\nResults:")
+for key, value in result.items():
+    print(f"  {key}: {value}")
+
+# ✅ No files created - Clean project!
+──────────────────────────────────────────────────────────────────────────────
+
+Performance Comparison:
+──────────────────────────────────────────────────────────────────────────────
+Feature              | With Files | Without Files
+─────────────────────┼────────────┼──────────────
+Training Speed       | Slightly slower | Slightly faster
+File I/O Operations  | Yes (~50-200ms) | No
+Disk Usage           | +50-200 KB  | No extra files
+Memory Usage         | Same        | Same
+Model Quality        | Identical   | Identical
+Debugging Info       | Available   | Lost
+
+Recommendation: Use allow_writing_files=False for research/production
+──────────────────────────────────────────────────────────────────────────────
+
+================================================================================
+                        7. TROUBLESHOOTING
+================================================================================
+
+Problem 1: "catboost_info folder keeps coming back"
+──────────────────────────────────────────────────────────────────────────────
+Cause: You're not using allow_writing_files=False parameter
+
+Solution:
+✓ Add allow_writing_files=False to CatBoostClassifier initialization
+✓ OR add train_dir=None
+✓ Both parameters together are most reliable
+
+Code:
+catboost_model = CatBoostClassifier(
+    allow_writing_files=False,
+    train_dir=None
+)
+──────────────────────────────────────────────────────────────────────────────
+
+
+Problem 2: "Cannot delete catboost_info - Access denied"
+──────────────────────────────────────────────────────────────────────────────
+Cause: Files are still locked (notebook still running)
+
+Solution:
+✓ Stop the Jupyter kernel (Ctrl+M then I, I)
+✓ Close VS Code and reopen
+✓ Wait 30 seconds and try again
+✓ Restart computer if persistent
+
+Command to check for locks:
+  tasklist | find "python"
+──────────────────────────────────────────────────────────────────────────────
+
+
+Problem 3: "Deleted folder but it keeps recreating"
+──────────────────────────────────────────────────────────────────────────────
+Cause: Old code cells are still executing
+
+Solution:
+✓ Add allow_writing_files=False to CatBoost code
+✓ Restart Jupyter kernel
+✓ Clear all cell outputs (Kernel → Clear Outputs → Clear All Outputs)
+✓ Run notebook from top to bottom fresh
+
+In notebook:
+%restart  # (or Kernel menu → Restart & Clear Output)
+──────────────────────────────────────────────────────────────────────────────
+
+
+Problem 4: "need the training logs for analysis"
+──────────────────────────────────────────────────────────────────────────────
+Cause: Want to keep files but organize them
+
+Solution:
+✓ Use train_dir='catboost_logs' (create dedicated folder)
+✓ Add 'catboost_logs/' to .gitignore
+✓ Keep project root clean
+
+Code:
+catboost_model = CatBoostClassifier(
+    train_dir='catboost_logs',      # ← Custom directory
+    allow_writing_files=True         # ← Allow files in that directory
+)
+
+Then add to .gitignore:
+catboost_logs/
+──────────────────────────────────────────────────────────────────────────────
+
+
+Problem 5: "Files take up too much storage"
+──────────────────────────────────────────────────────────────────────────────
+Cause: Many training runs accumulate files
+
+Solution:
+✓ Use allow_writing_files=False (prevents future files)
+✓ Delete existing catboost_info folder (see Section 5)
+✓ Add to .gitignore (prevents git tracking)
+
+One-time cleanup:
+  Remove-Item -Path "catboost_info" -Recurse -Force  # PowerShell
+  rmdir /s /q catboost_info                          # Command Prompt
+  rm -rf catboost_info                               # Git Bash/Mac/Linux
+──────────────────────────────────────────────────────────────────────────────
+
+================================================================================
+                           SUMMARY CHECKLIST
+================================================================================
+
+For your research project (Sleep Pattern - Academic Engagement):
+
+[✓] Add to notebook code:
+    allow_writing_files=False
+    train_dir=None
+
+[✓] Add to .gitignore:
+    catboost_info/
+    *.bin
+    catboost_training.log
+
+[✓] If folder already exists:
+    Use Option A-E from Section 5 to delete
+
+[✓] After cleanup:
+    git add .gitignore
+    git commit -m "Update .gitignore - CatBoost cleanup"
+    git push origin main
+
+[✓] Test notebook:
+    Run CatBoost cell without allow_writing_files=False
+    Verify NO catboost_info folder is created
+
+================================================================================
+                              FINAL NOTES
+================================================================================
+
+Document Created: February 7, 2026
+Project: Sleep Pattern & Academic Engagement Analysis
+Status: Production Ready
+
+Key Parameters:
+• allow_writing_files=False  → Prevents all file/folder creation
+• train_dir=None             → Disables default training directory
+• verbose=False              → Hides console output
+
+Recommendation:
+Use both parameters in production/research notebooks to keep project clean.
+
+Questions? Refer back to the appropriate section above.
+
+For more info: https://catboost.ai/en/docs/references/training-parameters
+
+================================================================================
