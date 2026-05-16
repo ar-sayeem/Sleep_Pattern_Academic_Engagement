@@ -1,0 +1,31 @@
+Predictor Variable,Spearman's rho,Direction,Strength,p-value
+Current_CGPA5,0.937,Positive,Very strong,< .001
+Impact_of_Sleep_on_Academic,0.176,Positive,Very weak,< .001
+Focus_on_Academic_Task,0.154,Positive,Very weak,< .001
+Sleepiness_During_Class,-0.143,Negative,Very weak,< .001
+AVG_Sleep_Per_Night,-0.114,Negative,Very weak,< .001
+Struggle_to_Sleep,-0.098,Negative,Very weak,< .001
+Daily_Academics_Time_Spend,-0.095,Negative,Very weak,< .001
+Sacrifices_Sleep_for_Academics,-0.073,Negative,Very weak,.005
+Gender,-0.073,Negative,Very weak,.005
+Skip_Class_for_Sleep,-0.065,Negative,Very weak,.012
+Smoke,0.056,Positive,Very weak,.032
+Regular_WakeUp_Time,-0.055,Negative,Very weak,.034
+Age,0.050,Positive,Very weak,.055
+Holiday_Bed_Time,-0.043,Negative,Very weak,.099
+Use_Sleep_Tracking_Devices,0.041,Positive,Very weak,.113
+Regular_Bed_time,-0.035,Negative,Very weak,.180
+Class_Attendance,0.033,Positive,Very weak,.211
+Consume_Caffeine_Night,-0.029,Negative,Very weak,.262
+Sleep_Condition,-0.028,Negative,Very weak,.283
+Aware_of_Recomamended_Sleep,0.027,Positive,Very weak,.301
+Electronic_Devices_Before_Bed,-0.025,Negative,Very weak,.343
+Sleep_Affecting_Drugs,0.021,Positive,Very weak,.418
+Main_Reason_for_Insufficient_Sleep,0.019,Positive,Very weak,.464
+Holiday_WakeUp_Time,-0.016,Negative,Very weak,.546
+Rate_Sleep_Quality,-0.015,Negative,Very weak,.554
+Dinnar_Time,-0.011,Negative,Very weak,.660
+Exam_Night_Bed_Time,-0.007,Negative,Very weak,.777
+Where_live,-0.006,Negative,Very weak,.819
+Have_Regular_Bed_Time,0.003,Positive,Very weak,.902
+Daytime_Nap,-0.002,Negative,Very weak,.930
