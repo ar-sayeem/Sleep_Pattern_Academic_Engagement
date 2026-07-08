@@ -340,15 +340,15 @@ This project investigates how sleep patterns and behavioral factors predict acad
 
 ---
 
-# License
+## License
 
 This repository is distributed under the **Academic Peer Review License (APRL) v1.0**.
 
 The repository is publicly accessible solely for peer review of the accompanying manuscript and is **not an open-source project**.
 
 See the [LICENSE](LICENSE) and [NOTICE](NOTICE) files for complete terms.
-
 ---
 
-**Last Updated:** 2024  
-**Status:** ✅ Complete - All experiments executed successfully
+**Last Updated:** 2026
+
+**Status:** 🟡 Research in Progress — Manuscript Preparation
