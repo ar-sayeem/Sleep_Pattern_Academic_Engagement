@@ -1,4 +1,17 @@
-# Sleep Pattern & CGPA Prediction - Research Project
+> [!IMPORTANT]
+> **Peer Review Notice**
+>
+> This repository is made publicly available **solely for academic peer review and editorial evaluation** of the associated research manuscript.
+>
+> This repository is **NOT open source**.
+>
+> All source code, datasets, models, documentation, and other contents are protected by copyright.
+>
+> Except as expressly permitted under the **Academic Peer Review License (APRL) v1.0**, no permission is granted to copy, modify, redistribute, reuse, publish, or incorporate any portion of this repository into other research, software, datasets, products, or AI/ML systems.
+
+
+# Sleep Pattern and Academic Performance Prediction
+### Machine Learning Analysis Using GAN-Augmented Data
 
 ## 📋 Project Overview
 
@@ -327,12 +340,13 @@ This project investigates how sleep patterns and behavioral factors predict acad
 
 ---
 
-## 📧 **Contact & Questions**
+# License
 
-For questions about methodology, results, or reproduction:
-- Check notebook comments and markdown cells
-- Review SHAP explanations for model behavior
-- Examine confusion matrices for error patterns
+This repository is distributed under the **Academic Peer Review License (APRL) v1.0**.
+
+The repository is publicly accessible solely for peer review of the accompanying manuscript and is **not an open-source project**.
+
+See the [LICENSE](LICENSE) and [NOTICE](NOTICE) files for complete terms.
 
 ---
 
