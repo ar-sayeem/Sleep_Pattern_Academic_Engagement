@@ -1,0 +1,41 @@
+Several methodological issues need to be addressed before this is publication-ready, along with persistent conceptual slippage in what the paper claims to measure.
+Major concerns
+1. "Academic engagement" vs. "academic performance" — the paper conflates two different constructs.
+ The title says "Academic Performance," the abstract's title and framing repeatedly say "Academic Engagement," and the actual target variable is CGPA (a performance measure), not an engagement scale. Attendance, focus, and sleepiness-in-class are used as predictors of CGPA, not as an engagement outcome being modeled. This isn't just a naming inconsistency — it changes how a reader interprets the contribution. Pick one framing and align the title, abstract, contributions list, and target variable description throughout.
+Write the Response :
+2. Likely data leakage from CTGAN oversampling before the train/test split.
+ Section III-D states the dataset was augmented to 1,918 samples via CTGAN and then split 80/20. If synthetic samples generated from the full minority class are present in both the training and test partitions, the model isn't being evaluated purely on held-out real data — part of the reported 63% accuracy may reflect the model recognizing patterns of its own synthetic generator rather than generalizing to unseen students. Standard practice is to hold out the real test set first, then oversample only the training partition. This should be corrected and the model re-evaluated, or at minimum the limitation needs to be explicitly flagged and, ideally, results reported on a test set consisting only of real (non-synthetic) samples.
+Write the Response :
+
+3. Circularity/leakage risk in feature selection.
+ Predictors like "Class Attendance," "Sleepiness During Class," "Academic Focus," "Skip Class for Sleep," and especially "Impact of Sleep on Academic" (a self-reported belief about the sleep–performance relationship) sit very close to the outcome construct itself. Using a subjective, self-assessed variable like "Impact of Sleep on Academic" to predict CGPA class risks the model partly learning "students who believe sleep hurts their grades tend to report lower CGPA," which is a much weaker and more circular finding than the paper's framing suggests. Worth a sensitivity analysis with and without these more engagement-adjacent/self-assessment features.
+Write the Response :
+
+4. No cross-validation; single fixed split.
+ All six models are compared using one 80/20 stratified split with a fixed random_state=42. Given the modest sample size and the closeness of several models' accuracies (63%, 61%, 60%, 59%), a single split can't support claims about which model is "best" — these differences could easily fall within resampling noise. k-fold CV (or repeated stratified splits with confidence intervals) would substantially strengthen the comparison in Table 7.
+Write the Response:
+
+5. Modest performance relative to baseline undersold.
+ 63% three-class accuracy is only moderately above the largest-class baseline (44.2% for Class 0). This is acknowledged in Discussion but could be stated more explicitly and earlier (e.g., report accuracy relative to majority-class baseline, and give a "no-skill" comparison) so readers can calibrate the "high-performing predictive tool" framing in the abstract/conclusion against the actual effect size.
+Write the Response :
+6. Table 7 metric pattern.
+ Accuracy, precision, recall, and F1 are identical (to two decimals) for every model in Table 7. This is possible under macro-averaging with a fairly balanced test set, but it's unusual enough across all six models that it's worth double-checking the metric computation (e.g., confirm these aren't accidentally all reporting the same underlying value).
+Moderate issues
+SHAP method choice: PermutationExplainer is used for a tree-based Gradient Boosting model, where TreeExplainer would be the standard, faster, and exact choice. If PermutationExplainer was chosen deliberately (e.g., for consistency across model types), state the rationale; otherwise consider switching.
+Write the Response :
+"Reason for Poor Sleep" has 67% N/A (993/1481) — a large non-response/non-applicable category on a variable discussed in the SHAP analysis. Clarify how this was encoded and whether it affects the interpretability of that feature's importance.
+Write the Response :
+CGPA banding citation [36]: worth double-checking that the specific 3.5/3.0 cutoffs match the cited source precisely, since this reclassification is central to the whole analysis.
+Write the Response :
+Causal-sounding language recurs ("impact of sleep... on academic performance," title) despite the cross-sectional design being explicitly flagged as a limitation later — consider softening language throughout (e.g., "association with," "predictive of") rather than only caveat in Discussion.
+Write the Response :
+Minor/editorial
+Table 5: "sures that" → "ensures that" (typo). Write the Response :
+Corresponding author's email domain (uiu.ac.bd) doesn't match the stated primary DIU affiliation — worth reconciling before submission. Write the Response :
+Reference [28]'s URL is truncated ("...rdehkharghani/. . ."). Write the Response :
+Running title inconsistency: header/title says "Academic Performance," abstract/index terms emphasize "Academic Engagement" (same issue as Major Concern #1, but also a copy-editing matter). Write the Response :
+Figure 1's caption mentions "statistical analysis" as a stage, but the five listed methodology steps in text don't explicitly include a "statistical analysis" stage — minor mismatch between figure caption and body text. Write the Response :
+
+In summary, the core idea and interpretability analysis are solid, but the CTGAN-before-split issue and the engagement/performance conflation are the two things I'd prioritize fixing before resubmission, since both affect how much weight a reader should put on the headline 63% accuracy figure.
+Write the Response :
+
